@@ -1,0 +1,93 @@
+﻿		
+		<div class="repairing" ng-if=" repairing && !completed "></div>
+		<span class="icon-tool massive repairing-icon" ng-if=" repairing && !completed "></span>
+		
+		<div class="help" ng-if="showHelp">
+
+			<h2>Gunbot Tools</h2>
+
+
+			<p>This handy little tool will validate any Gunbot config file known to mankind, against the version that you've selected.</p>
+			<p>Simply pop your config file into the editor, and watch in awe as we validate the entire thing. Any errors that found will be displayed at the bottom of the page.</p>
+			
+			<p><i>This is all takes place on your local machine.</i></p>
+			
+			<p><b>But wait!</b> It doesn't stop there...</p>
+			
+			<p>Gunbot Tools can automatically repair your old, broken and neglected config files. Once you've discovered any errors, simply hit the "Fix" button, and <b>*poof*</b> - your config file has been restored. This will also upgrade or downgrade your config to the version you've selected. <b>Like magic...</b></p>
+	
+			<p class="disclaimer first-disclaimer">PRIVACY</p>
+			<p class="disclaimer">All repairs and upgrades of config files <i>ARE</i> performed on our servers. All sensitive information <i>IS</i> stripped from the config before transmission. This includes:
+				<ul class="small-list">
+					<li>Exchange Keys</li>
+					<li>Exchange Secrets</li>
+					<li>Telegram Tokens</li>
+					<li>Tradingview Username</li>
+					<li>Tradingview Passwords</li>
+					<li>Gunthy Wallet</li>
+				</ul>
+			</p>
+			
+			<p class="bottom-text">If you'd like to contribute to this tool, or view the source code - it's available publicly on <a href="#" target="_blank">GitHub</a>.<br/>
+			If you experience any unexpected behaviour, please contact <a href="https://t.me/Glenndilen" target="_blank">Glenndilen</a>.</p>
+			
+		</div>
+
+
+		<div class="validator">
+
+			<div class="options">
+
+				<ul class="left-opt">
+
+					<li><span class="icon-tool"></span> <span class="beta">BETA</span></li>
+
+					<li class="vercont">
+						<select ng-change=" updateVersion() " ng-model=" version" >
+							<option value="v10" class="colored">V10</option>
+							<option value="v11" class="colored">V11</option>
+							<option value="v12" class="colored" selected>V12</option>
+						</select>
+					</li>
+
+					<li class="count {{ errors.length > 0 ? 'red' : 'green' }}">{{ errors.length }} {{ errors.length == 1 ? 'Error' : 'Errors' }}</li>
+					
+					<li class="butn btnfix" ng-if=" errors.length > 0 && !JSON_error " ng-click="Fix()"><i class="fa fa-wrench"></i> Fix</li>
+					<li class="butn btndownload" ng-if=" errors.length == 0 && config !== '' " ng-click="Download()"><i class="fa fa-download"></i> Download</li>
+					
+				
+				</ul>
+
+				<ul class="right-opt">
+				
+					
+					
+					<li class="butn btnhelp" ng-click="ToggleHelp()" ng-if="!showHelp"><i class="fa fa-question-circle"></i> About</li>
+					<li class="butn btnhelp" ng-click="ToggleHelp()" ng-if="showHelp"><i class="fa fa-times-circle"></i> Close</li>
+				
+				</ul>
+
+			</div>
+
+			<div ui-codemirror="parameters" ng-model="config" class="editor"></div>
+
+		</div>
+
+
+
+			<ul class="errors" style="" >
+
+				<li ng-repeat="error in errors track by $index" style="">
+
+					<span class="line"><b>Line {{ error.line }}:</b></span>
+					<span class="message">{{ error.message }}</span>
+
+				</li>
+
+				<li ng-if=" errors.length == 0 " class="clean">
+
+					No errors found
+
+				</li>
+
+			</ul>
