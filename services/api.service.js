@@ -21,7 +21,7 @@
 		}
 		
 		function Fix( data ){
-			return $http.post( 'https://dev.gunbot.tools/backend/fix.php', data ).then( handleSuccess, handleError( 'Field endpoint error' ) );
+			return $http.post( 'https://dev.gunbot.tools/fix/', data ).then( handleSuccess, handleError( 'Field endpoint error' ) );
 		}
 
         function handleSuccess( response ){
