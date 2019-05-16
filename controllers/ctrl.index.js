@@ -8,22 +8,22 @@
     IndexController.$inject = ['$rootScope', '$scope', '$timeout', 'APIService'];
     function IndexController( $rootScope, $scope, $timeout, APIService ) {
 	
-		
+		$scope.version = "v12";
 		$scope.fields = false;
+		
 		$scope.config = '';
+		
 		$scope.errors = [];
 		
 		$scope.completed = false;
 		$scope.validated = false;
+		$scope.repairing = false;
 		
 		$scope.JSON_ERROR = false;
 		
-		$scope.version = "v12";
-		$scope.repairing = false;
-		
 		$scope.showHelp = true;
 		
-		//Protected fields that should NEVER leave the browser. EVER.
+		//Protected fields that will NEVER leave the browser. EVER.
 		$scope.protected = {
 			bot: {
 				TOKEN: false,
@@ -37,6 +37,7 @@
 			}
 		};
 		
+		//Exchange data that will NEVER leave the browser. EVER.
 		$scope.exchanges = {};
 		
 		//Validate editor params
@@ -164,9 +165,10 @@
 		
 		
 		
-		
+		//Function to download the current config
 		$scope.Download = function(){
 			
+			//Some local
 			var config = false;
 			var valid = false;
 			
@@ -207,7 +209,7 @@
 		
 		
 		
-		
+		//Function to strip the protected data, post the config - and add the protected data on receiving response
 		$scope.Fix = function(){
 			
 			//Some local variables
@@ -305,29 +307,22 @@
 				//Handler response
 				}).then( function( response ){
 					
+					
+					console.log( $scope.protected );
+					
 					//Loop through each of the locally stored protected field sets
 					angular.forEach( $scope.protected, function( fields, set ){
 						
 						//Loop through each saved field
 						angular.forEach( fields, function( value, field ){
 							
-							//Loop through each of the field sets valid for this version
-							angular.forEach( $scope.fields, function( _fields, _set ){
-								
-								//Loop through each field
-								angular.forEach( _fields, function( _value, _field ){
-									
-									//If the protected field is a member of this version
-									if( _field == field ){
-										
-										//Add the protected value to the result
-										response[ set ][ field ] = value.toString();
+							//If the response has this protected section
+							if( response[ set ] != null ){
 							
-									}
-									
-								});
-								
-							});
+								//Add the protected value to the result
+								response[ set ][ field ] = value.toString();
+							
+							}
 			
 						});
 						
@@ -359,7 +354,6 @@
 					
 					//Repairing done.
 					$scope.repairing = false;
-					
 					
 				});
 				
