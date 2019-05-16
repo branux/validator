@@ -28,8 +28,8 @@
 				</ul>
 			</p>
 			
-			<p class="bottom-text">If you'd like to contribute to this tool, or view the source code - it's available publicly on <a href="#" target="_blank">GitHub</a>.<br/>
-			If you experience any unexpected behaviour, please contact <a href="https://t.me/Glenndilen" target="_blank">Glenndilen</a>.</p>
+			<p class="bottom-text">If you'd like to contribute to this tool, or view the source code - it's available publicly on <a href="https://github.com/gunbot-tools/" target="_blank">GitHub</a>.<br/>
+			If you experience any unexpected behaviour, please contact <a href="https://t.me/Glenndilen" target="_blank">Glenndilen</a> or post an issue on <a href="https://github.com/gunbot-tools/validator/issues" target="_blank">GitHub</a>.</p>
 			
 		</div>
 
@@ -54,6 +54,10 @@
 					
 					<li class="butn btnfix" ng-if=" errors.length > 0 && !JSON_error " ng-click="Fix()"><i class="fa fa-wrench"></i> Fix</li>
 					<li class="butn btndownload" ng-if=" errors.length == 0 && config !== '' " ng-click="Download()"><i class="fa fa-download"></i> Download</li>
+					
+					<li class="butn btnupload" file-browser >
+						<i class="fa fa-folder-open"></i> Open
+					</li>
 					
 				
 				</ul>

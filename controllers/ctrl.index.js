@@ -11,6 +11,8 @@
 		$scope.version = "v12";
 		$scope.fields = false;
 		
+		$scope.upload = false;
+		
 		$scope.config = '';
 		
 		$scope.errors = [];
@@ -18,6 +20,7 @@
 		$scope.completed = false;
 		$scope.validated = false;
 		$scope.repairing = false;
+		$scope.uploading = false;
 		
 		$scope.JSON_ERROR = false;
 		
@@ -112,6 +115,17 @@
 			
 			//Validate it
 			$scope.Validate();
+			
+		});
+		
+		//When the upload variable changes
+		$scope.$watch( 'upload', function(){
+			
+			if( $scope.upload ){
+				
+				$scope.config = $scope.upload;
+				
+			}
 			
 		});
 		
