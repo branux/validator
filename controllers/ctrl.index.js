@@ -37,83 +37,7 @@
 			}
 		};
 		
-		$scope.exchanges = {
-			
-			poloniex: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: ''
-				
-			},
-			bittrex: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: ''
-				
-			},
-			binance: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: ''
-				
-			},
-			cryptopia: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: ''
-				
-			},
-			cex: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: '',
-				clientId: ''
-				
-			},
-			gdax: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: ''
-				
-			},
-			bitfinex: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: ''
-				
-			},
-			kraken: {
-				
-				masterkey: '',
-				mastersecret: '',
-				key: '',
-				secret: ''
-				
-			},
-			kucoin: {
-				
-				masterkey: '',
-				mastersecret: '', 
-				key: '',
-				secret: ''
-				
-			}
-			
-		};
+		$scope.exchanges = {};
 		
 		//Validate editor params
 		$scope.parameters = {
@@ -290,6 +214,9 @@
 			var valid = false;
 			var config = false;
 			
+			//Clear exchange protected array
+			$scope.exchanges = {};
+			
 			//Nasssttyyy hack - when chat_id is over 53 bits, javas-crap automatically converts it to a floating point. GREAT!!!!!
 			//This replaces the long number with a string if it's over the 53 bit limit
 			config = angular.copy( $scope.config );
@@ -343,25 +270,29 @@
 					
 				});
 
+
+
 				//For each of the exchanges in the config file
 				angular.forEach( config.exchanges, function( fields, exchange ){
+					
+					//If the exchange hasn't been set yet
+					if( $scope.exchanges[ exchange ] == null ) $scope.exchanges[ exchange ] = {};
 					
 					//Loop through each of the fields
 					angular.forEach( fields, function( value, field ){
 						
-						//If we have an exchange field
-						if( typeof $scope.exchanges[ exchange ][ field ] !== 'undefined' ){
-							
-							//Save the exchange values, and remove it from the config
-							$scope.exchanges[ exchange ][ field ] = value;
-							config.exchanges[ exchange ][ field ] = '';
-							
-						}
+						//Save the exchange field locally
+						$scope.exchanges[ exchange ][ field ] = value;
+						
+						//Omit this field from the config
+						config.exchanges[ exchange ][ field ] = '';
 						
 					});
 					
 				});
-		
+				
+				
+				
 				//Post the clean config to the fixer
 				APIService.Fix({ 
 					
@@ -405,20 +336,15 @@
 					
 					//Foreach of the protected exchange values
 					angular.forEach( $scope.exchanges, function( fieldset, exchange ){
-						
-						//If the exchange exists in the response
-						if( typeof response.exchanges[ exchange ] !== 'undefined' ){
-							
-							//Loop through each field
-							angular.forEach( fieldset, function( value, field ){
+
+						//Loop through each field
+						angular.forEach( fieldset, function( value, field ){
 								
-								//Add the protected value
-								response.exchanges[ exchange ][ field ] = value;
+							//Add the protected value
+							response.exchanges[ exchange ][ field ] = value;
 							
-							});
+						});
 						
-						}
-				
 					});
 					
 					
