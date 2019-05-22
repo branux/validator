@@ -1,4 +1,4 @@
-# ![alt text][logo] Gunbot.Tools
+# Gunbot.Tools
 
 ## About The Tool
 
